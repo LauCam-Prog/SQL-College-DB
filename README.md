@@ -1,1 +1,82 @@
 # SQL-College-DB
+========================================================================
+GRANDFIELD COLLEGE DATABASE SCRIPT - README
+========================================================================
+Author:       Grandfield College IT Department
+Date:         2026-09-02
+Version:      1.0.0
+File Type:    SQL Database Schema Deployment Script
+------------------------------------------------------------------------
+
+1. DESCRIPTION
+------------------------------------------------------------------------
+This SQL script automates the creation and initialization of the 
+'grandfield_college' database management system. It drops any existing 
+instance of the database to ensure a clean slate and creates the base 
+relational schema. The database tracks campus staff, computer inventory, 
+software management, software licensing, and technical requests.
+
+
+2. REQUIREMENTS
+------------------------------------------------------------------------
+Before executing this script, ensure you have the following installed:
+
+* Relational Database Engine: MySQL Server 5.7+ or MariaDB 10.3+
+* Database Client: MySQL Workbench, phpMyAdmin, DBeaver, or Command Line
+
+
+3. DATABASE SCHEMA STRUCTURE
+------------------------------------------------------------------------
+The script generates 8 relational tables with built-in data integrity constraints:
+
+* Staff: Stores personnel records including contact details and department.
+* Software: Logs tracked software programs, known issues, and solutions.
+* Computers: Tracks computer hardware status and software deployment lifecycles.
+* ComputerStaff: Maps administrative access privileges between staff and hardware.
+* Requests: Manages IT support and technical repair request tickets.
+* Locations: Documents physical mapping of hardware to campus buildings and rooms.
+* Licenses: Tracks software licensing agreements, types, and expiry durations.
+* RealeaseForms: Handles hardware/software approval forms signed off by professors.
+
+
+4. INSTALLATION & SETUP
+------------------------------------------------------------------------
+Follow these steps to deploy the database:
+
+Method A: Command Line Client (CLI)
+1. Open your terminal or command prompt.
+2. Log into your MySQL server:
+   mysql -u your_username -p
+3. Execute the script by path:
+   source /path/to/grandfield_college.sql;
+
+Method B: Graphical Interface (e.g., MySQL Workbench)
+1. Open your database management tool and connect to your server instance.
+2. Open the script file: File -> Open SQL Script -> Select this file.
+3. Click the "Execute" button (Lightning Bolt icon) to build the database.
+
+
+5. DATA INTEGRITY & RELATIONSHIPS
+------------------------------------------------------------------------
+The script automatically implements relational constraints via foreign keys:
+* 'Computers' references 'Software' to map installations.
+* 'ComputerStaff' maps 'Staff' IDs directly to 'Computers' IDs.
+
+Note: Tables containing Foreign Keys will fail to populate if referenced 
+Primary Keys do not exist yet. Ensure master data (Staff, Software, 
+Computers) is loaded before transactional data (ComputerStaff).
+
+
+6. TROUBLESHOOTING
+------------------------------------------------------------------------
+* Issue: "Access denied for user" during execution.
+  Fix: Ensure your SQL user account has database creation privileges.
+
+* Issue: "Foreign key constraint fails" during data insertion.
+  Fix: You must populate the 'Staff' and 'Computers' parent tables before 
+  inserting rows into the dependent 'ComputerStaff' bridge table.
+
+* Issue: Typo found in schema name.
+  Fix: Please note the release forms table is structurally named 
+  'RealeaseForms' inside the script logic.
+========================================================================
